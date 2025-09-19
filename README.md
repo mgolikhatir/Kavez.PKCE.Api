@@ -2,47 +2,24 @@
 ```markdown
 # 🚀 Kavez.PKCE.Api
 
-**Secure PKCE API for OAuth 2.0 flows — powered by ASP.NET Core and Kavez.PKCE NuGet package**
+**Secure PKCE API for OAuth 2.0 flows — built with ASP.NET Core and powered by Kavez.PKCE NuGet package**
 
 ---
 
 ## 🔐 What is this?
 
-`Kavez.PKCE.Api` is a lightweight RESTful API built with ASP.NET Core that generates PKCE code verifiers and challenges. It’s designed to support OAuth 2.0 authorization flows across mobile, desktop, CLI, and web platforms.
+`Kavez.PKCE.Api` is a modular, educational Web API that demonstrates how to implement and test PKCE (Proof Key for Code Exchange) in OAuth 2.0 flows.  
+It’s designed for developers, educators, and teams building secure authentication systems across mobile, desktop, CLI, and web platforms.
 
 This API wraps the core functionality of the [`Kavez.PKCE`](https://www.nuget.org/packages/Kavez.PKCE) NuGet package and exposes it via HTTP endpoints.
 
 ---
 
-## 🚀 How to Run
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/mgolikhatir/Kavez.PKCE.Api.git
-   ```
-
-2. Restore dependencies:
-   ```bash
-   dotnet restore
-   ```
-
-3. Run the project:
-   ```bash
-   dotnet run
-   ```
-
-4. Open Swagger UI:
-   ```
-   https://localhost:5001/swagger
-   ```
-
----
-
-## 📡 API Endpoint
+## 📡 API Endpoints
 
 ### `GET /api/pkce?method=S256`
 
-Returns a PKCE code verifier and challenge.
+Generates a PKCE code verifier and challenge.
 
 **Query Parameters:**
 - `method`: `S256` (default) or `plain`
@@ -58,16 +35,97 @@ Returns a PKCE code verifier and challenge.
 
 ---
 
+### `POST /api/pkce/verify`
+
+Verifies that a given `code_verifier` matches the expected `code_challenge`.
+
+**Request Body:**
+```json
+{
+  "verifier": "original-verifier",
+  "challenge": "received-challenge",
+  "method": "S256"
+}
+```
+
+**Response:**
+```json
+{
+  "isValid": true
+}
+```
+
+---
+
+### `POST /api/token/mock`
+
+Simulates token issuance for educational purposes.
+
+**Request Body:**
+```json
+{
+  "code": "auth-code",
+  "redirectUri": "https://localhost:5001/callback",
+  "clientId": "demo-client",
+  "codeVerifier": "original-verifier"
+}
+```
+
+**Response:**
+```json
+{
+  "access_token": "generated-guid",
+  "token_type": "Bearer",
+  "expires_in": 3600
+}
+```
+
+---
+
+### `GET /api/pkce/sample`
+
+Returns a full PKCE flow sample including authorization URL.
+
+**Response:**
+```json
+{
+  "verifier": "...",
+  "challenge": "...",
+  "redirect_uri": "https://localhost:5001/callback",
+  "client_id": "demo-client",
+  "authorization_url": "https://auth.example.com/authorize?...params..."
+}
+```
+
+---
+
+## 🧠 Why use this?
+
+- ✅ Learn how PKCE works in practice
+- ✅ Test your OAuth clients with real PKCE values
+- ✅ Simulate token flows without needing a full auth server
+- ✅ Use as a reference implementation for secure API design
+
+---
+
+## 🛠 How to Run
+
+```bash
+git clone https://github.com/mgolikhatir/Kavez.PKCE.Api.git
+dotnet restore
+dotnet run
+```
+
+Open Swagger UI at:  
+`https://localhost:5001/swagger`
+
+---
+
 ## 📦 Dependencies
 
 - [.NET 8](https://dotnet.microsoft.com/)
 - [`Kavez.PKCE`](https://www.nuget.org/packages/Kavez.PKCE)
-
----
-
-## 🧠 About Kavez
-
-This project is part of the [Kavez](https://github.com/mgolikhatir) initiative to build modular, secure, and globally accessible tools for developers. It’s designed with clarity, reproducibility, and scalability in mind.
+- `Swashbuckle.AspNetCore` for Swagger UI
 
 ---
 
@@ -76,8 +134,8 @@ This project is part of the [Kavez](https://github.com/mgolikhatir) initiative t
 Developed by [Mohammad Golikhatir](https://www.linkedin.com/in/mgolikhatir/)  
 Founder & CEO of [Kavez](https://github.com/mgolikhatir) — building modular, secure, and globally scalable tools for developers, educators, and innovators.
 
-📬 For collaboration, feedback, or technical inquiries:  
-Feel free to connect via [LinkedIn](https://www.linkedin.com/in/mgolikhatir/) or explore more projects on [GitHub](https://github.com/mgolikhatir).
+📬 For feedback, collaboration, or workshops:  
+Connect via [LinkedIn](https://www.linkedin.com/in/mgolikhatir/) or explore more projects on [GitHub](https://github.com/mgolikhatir)
 
 ---
 
